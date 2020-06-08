@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 repository: fastai/nbdev_template
 output: web
 topnav_title: nbdev_template
@@ -62,3 +63,6 @@ permalink: pretty
 
 theme: jekyll-theme-cayman
 baseurl: /nbdev_template/
+=======
+theme: jekyll-theme-cayman
+>>>>>>> f1ea141a9ec307da77cb48b7422d255ac19cadcc
