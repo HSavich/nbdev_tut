@@ -1,7 +1,7 @@
 {
   "nbdev_template": {
     "Overview": "/",
-    "module name here": "/core",
+    "Core": "/core",
     "Matrix Multiply": "/matrix_multiply"
   }
 }
