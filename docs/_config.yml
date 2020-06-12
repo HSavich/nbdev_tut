@@ -1,9 +1,9 @@
 repository: fastai/nbdev_template
 output: web
-topnav_title: nbdev_template
-site_title: nbdev_template
+topnav_title: Matrix Multiply
+site_title: Matrix Multiply
 company_name: Henry Savichx
-description: nbdev tutorial
+description: multiply 2 matrices
 # Set to false to disable KaTeX math
 use_math: true
 # Add Google analytics id if you have one and want to use it here
