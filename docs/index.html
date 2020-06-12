@@ -1,6 +1,6 @@
 ---
 
-title: nbdev_tut
+title: matrix multiply
 
 keywords: fastai
 sidebar: home_sidebar
@@ -23,6 +23,39 @@ description: "This is an nbdev tutorial notebook."
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -55,7 +88,20 @@ description: "This is an nbdev tutorial notebook."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Fill me in please! Don't forget code examples:</p>
+<p>In this notebook we will multiply 2 matrices.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Dot-Product">Dot Product<a class="anchor-link" href="#Dot-Product"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, lets familiarize ourselves with the dot product, which is an operation defined between 2 one-dimensional vectors of equal length</p>
 
 </div>
 </div>
@@ -67,7 +113,12 @@ description: "This is an nbdev tutorial notebook."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vector_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vector A is &quot;</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">vector_A</span><span class="p">))</span>
+<span class="n">vector_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vector B is &quot;</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">vector_B</span><span class="p">))</span>
+<span class="n">vector_C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vector C is &quot;</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">vector_C</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -79,12 +130,12 @@ description: "This is an nbdev tutorial notebook."
 
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Vector A is [1 2 3]
+Vector B is [3 0 5]
+Vector C is [1 2 3 4]
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -93,6 +144,215 @@ description: "This is an nbdev tutorial notebook."
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For example, of the vectors above, only A·B and B ·A are defined, because C has a different dimension than the other 2</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that have 2 vectors we know we can "multiply" using the dot product, we will look at how to do it. The dot product of 2 vectors is a <strong>scalar</strong> and is equal to <strong>the sum of the scalar products of numbers in the same positions</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So to calculate A·B, we would do A[0]*B[0] + A[1]*B[1] + A[2]*B[2]</p>
+<p>= 1 * 3 + 2 * 0 + 3 * 5</p>
+<p>= 3 + 0 + 15</p>
+<p>= 18</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get the dot product of 2 vectors, we can use dotp(). Let's check our answer!</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dotp</span><span class="p">(</span><span class="n">vector_A</span><span class="p">,</span> <span class="n">vector_B</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>18
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Matrix-Product">Matrix Product<a class="anchor-link" href="#Matrix-Product"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we know what a dot product is, we can continue to define the matrix product</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The matrix product JxK is defined for matrices J and K where the number of <strong>columns</strong> in J is equal to the number of <strong>rows</strong> in K</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">matrix_J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;J is </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">matrix_J</span><span class="p">))</span>
+<span class="n">matrix_K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> K is </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">matrix_K</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>J is 
+[[2 4]
+ [3 5]
+ [0 1]]
+
+ K is 
+[[1 3 2 5]
+ [0 4 0 1]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For example, above, JxK is defined because J has <strong>2 columns</strong> and K has <strong>2 rows.</strong> However, KxJ is not defined because K has <strong>4 columns</strong> while J has <strong>3 rows</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So how do we calculate the matrix product? Well if M is a matrix with <em>x</em> rows and <em>y</em> columns, and N is a matrix with <em>y</em> rows and <em>z</em> columns the product will be a matrix with <em>x</em> rows and <em>z</em> columns. In the product matrix MxN, the value in the <em>ith</em> row and the <em>jth</em> column will be the dot product of the <em>ith</em> row of M and the <em>jth</em> column.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So back to our example JxK, J has 3 rows and K has 4 columns, so JxK will be a matrix with 3 rows and 4 columns.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We won't go through the full calculation because it is lengthy even for small matrices, but we can look at just 1 value in the product matrix. (1,1) in JxK (that is, the value of JxK in the 1st row and the 1st column) will be the dot product of the 1st row of J and the 1st column of K.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>JxK[0,0] = J[0,:] · K[:,0]</p>
+<p>= [2,4] · [1,0]</p>
+<p>= 2*1 + 4*0</p>
+<p>= 2 + 0</p>
+<p>= 2</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get the matrix product we can use mmult(), so let's look at JxK</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mmult</span><span class="p">(</span><span class="n">matrix_J</span><span class="p">,</span> <span class="n">matrix_K</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[ 2. 22.  4. 14.]
+ [ 3. 29.  6. 20.]
+ [ 0.  4.  0.  1.]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we can see, like we expected, the resultant matrix has 3 rows and 4 columns, and the element in the 1st column and 1st row is 2</p>
+
+</div>
+</div>
+</div>
 </div>
  
 

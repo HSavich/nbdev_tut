@@ -12,6 +12,9 @@ entries:
     - output: web,pdf
       title: module name here
       url: /core
+    - output: web,pdf
+      title: Matrix Multiply
+      url: /matrix_multipy
     output: web
     title: nbdev_template
   output: web
