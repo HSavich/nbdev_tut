@@ -1,4 +1,4 @@
-# matrix multiply
+# Matrix Multiply
 > This is an nbdev tutorial notebook.
 
 
