@@ -5,8 +5,8 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"say_hello": "00_core.ipynb",
          "say_goodbye": "00_core.ipynb",
          "HelloSayer": "00_core.ipynb",
-         "dotp": "10_matrix_multipy.ipynb",
-         "mmult": "10_matrix_multipy.ipynb"}
+         "dotp": "10_matrix_multiply.ipynb",
+         "mmult": "10_matrix_multiply.ipynb"}
 
 modules = ["core.py",
            "mmult.py"]
