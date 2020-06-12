@@ -12,7 +12,7 @@ def dotp(v1, v2):
 
 # Cell
 def mmult(m1, m2):
-    "Get product of 2 matrices"
+    "Get product of 2 matrices using [dotp](/mmult#dotp) "
     import numpy as np
     assert m1.shape[1] == m2.shape[0]
     vsize = m1.shape[1]
